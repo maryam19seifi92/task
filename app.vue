@@ -352,14 +352,14 @@ watch(
               class="border-b"
               @click="selectedActivityIndex = index"
             >
-              <td>
+              <td class="px-2">
                 <input
                   type="text"
                   class="w-full border focus:outline-none px-2 py-1"
                   v-model="item.day"
                 />
               </td>
-              <td>
+              <td class="px-2">
                 <select
                   class="w-full border focus:outline-none px-2 py-1"
                   v-model="item.type"
@@ -372,17 +372,17 @@ watch(
                   <option value="2">Option 2</option>
                 </select>
               </td>
-              <td>
+              <td class="px-2">
                 <VueDatePicker
                   @open="selectedActivityIndex = index"
                   v-model="item.from"
                   placeholder="Choose the date"
                 />
               </td>
-              <td>
+              <td class="px-2">
                 {{ item.duration }}
               </td>
-              <td>
+              <td class="px-2">
                 <select
                   class="w-full border focus:outline-none px-2 py-1"
                   v-model="item.percent"
@@ -392,7 +392,7 @@ watch(
                   <option value="100">100%</option>
                 </select>
               </td>
-              <td>
+              <td class="px-2">
                 <VueDatePicker
                   @open="selectedActivityIndex = index"
                   v-model="item.to"
@@ -400,11 +400,20 @@ watch(
                 />
               </td>
 
-              <td>Burthing complited</td>
-              <td>
+              <td class="px-2">Burthing complited</td>
+              <td class="px-2">
                 {{ item.deduction }}
               </td>
-              <td>jjjjj</td>
+              <td>
+                <div class="flex items-center justify-center gap-x-3 px-3">
+                  <button @click="selectedItem.activities.splice(index, 1)">
+                    <IconTrash class="w-4 h-4 text-red-500" />
+                  </button>
+                  <button>
+                    <IconCopy class="w-4 h-4" />
+                  </button>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>
