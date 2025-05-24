@@ -3,7 +3,6 @@ import { ref } from "vue";
 
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
-import { Result } from "postcss";
 
 const listItems = ref([
   {
@@ -72,15 +71,17 @@ const selectedItem = computed(() => {
     return item.name === selected.value.name;
   });
 
-  return result || [];
+  return result || {};
+});
+
+const selectedPortIndex = computed(() => {
+  return selected.value.name
+    ? listItems.value.findIndex((item) => item.name === selected.value.name)
+    : -1;
 });
 
 const addRow = () => {
-  let selectedPortIndexx = listItems.value.findIndex((item) => {
-    return item.name === selected.value.name;
-  });
-
-  if (selectedPortIndexx === -1) {
+  if (selectedPortIndex.value === -1) {
     alert("Please select a port to add activity");
     return;
   }
@@ -88,34 +89,23 @@ const addRow = () => {
   const newRow = {
     day: "",
     type: "0",
-    from: listItems.value[selectedPortIndexx].activities.length
-      ? listItems.value[selectedPortIndexx].activities[0].to
+    from: listItems.value[selectedPortIndex.value].activities.length
+      ? listItems.value[selectedPortIndex.value].activities[0].to
       : "",
     duration: "",
-    day: "",
     percent: "0",
     to: "",
     remarks: "",
     deduction: "",
   };
 
-  listItems.value[selectedPortIndexx].activities.unshift(newRow);
+  listItems.value[selectedPortIndex.value].activities.unshift(newRow);
 };
 
 const activities = computed(() => {
-  let selectedPortIndex = listItems.value.findIndex((item) => {
-    return item.name === selected.value.name;
-  });
-
-  return selectedPortIndex > -1
-    ? listItems.value[selectedPortIndex].activities
+  return selectedPortIndex.value > -1
+    ? listItems.value[selectedPortIndex.value].activities
     : [];
-});
-
-const selectedPortIndex = computed(() => {
-  return selected.value.name
-    ? listItems.value.findIndex((item) => item.name === selected.value.name)
-    : -1;
 });
 
 const selectedActivityIndex = ref(-1);
@@ -210,7 +200,18 @@ watch(
 );
 
 const cloneRow = (item) => {
-  listItems.value[selectedPortIndex.value].activities.unshift(item);
+  const newRow = {
+    day: item.day,
+    type: item.type,
+    from: item.from,
+    duration: item.duration,
+    percent: item.percent,
+    to: item.to,
+    remarks: item.remarks,
+    deduction: item.deduction,
+  };
+
+  listItems.value[selectedPortIndex.value].activities.unshift(newRow);
 };
 </script>
 
