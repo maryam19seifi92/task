@@ -102,16 +102,6 @@ const addRow = () => {
   listItems.value[selectedPortIndexx].activities.unshift(newRow);
 };
 
-const from = computed(() => {
-  let selectedPortIndex = listItems.value.findIndex((item) => {
-    return item.name === selected.value.name;
-  });
-
-  return selectedPortIndex > -1
-    ? listItems.value[selectedPortIndex].activities.map((el) => el.from)
-    : [""];
-});
-
 const activities = computed(() => {
   let selectedPortIndex = listItems.value.findIndex((item) => {
     return item.name === selected.value.name;
@@ -218,6 +208,10 @@ watch(
   },
   { deep: true },
 );
+
+const cloneRow = (item) => {
+  listItems.value[selectedPortIndex.value].activities.unshift(item);
+};
 </script>
 
 <template>
@@ -409,7 +403,7 @@ watch(
                   <button @click="selectedItem.activities.splice(index, 1)">
                     <IconTrash class="w-4 h-4 text-red-500" />
                   </button>
-                  <button>
+                  <button @click="cloneRow(item)">
                     <IconCopy class="w-4 h-4" />
                   </button>
                 </div>
